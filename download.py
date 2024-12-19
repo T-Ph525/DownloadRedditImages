@@ -1,6 +1,8 @@
 import fire
 from utils import check_max_simultaneous_downloads, get_default_download_dir
 from web_handler import RedditStateHandler
+from counter_and_status_bar import MultiProcessingCounterAndStatusBar
+from media_downloader import MediaDownloader
 from tqdm import tqdm
 import logging
 from concurrent.futures import ThreadPoolExecutor
@@ -82,5 +84,5 @@ def start_download(subreddit: str,
     except Exception as e:
         logging.error(f"An error occurred: {e}")
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     fire.Fire(start_download)
