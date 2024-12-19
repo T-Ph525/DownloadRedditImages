@@ -1,13 +1,13 @@
 import json
 import time
-import urllib.request as request
+import requests
 from typing import Dict
 
-from utils import verify_sort_options
+from utils import verify_sort_options, HEADERS
 
 
 class RedditStateHandler:
-    
+
     def __init__(self, 
                  subreddit: str,
                  sort_time: str,
@@ -39,10 +39,11 @@ class RedditStateHandler:
         subreddit_data = {'data': {'children': None}}        
         for _ in range(self._max_trials):
             try:
-                subreddit_page = request.urlopen(self.current_url)
-                subreddit_data = json.load(subreddit_page)
+                response = requests.get(self.current_url, headers=HEADERS)
+                response.raise_for_status()
+                subreddit_data = response.json()
                 break
-            except:
+            except requests.RequestException:
                 time.sleep(2)  # If we cannot access the reddit page, we wait for 2 seconds and retry.
 
         return subreddit_data
