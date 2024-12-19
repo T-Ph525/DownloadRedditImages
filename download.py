@@ -7,9 +7,6 @@ from tqdm import tqdm
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 def start_download(subreddit: str,
                    sort_time: str,
                    sort_by: str,
@@ -17,7 +14,7 @@ def start_download(subreddit: str,
                    max_post_downloads: int = 10,
                    max_trials: int = 20,
                    max_simultaneous_downloads: int = 16,
-                   ):
+                   verbose: bool = False):
     """
     Initialize the said class.
     :param subreddit: Name of the subreddit.
@@ -27,7 +24,12 @@ def start_download(subreddit: str,
     :param max_post_downloads: Maximum number of posts to download. Default 10.
     :param max_trials: Maximum number of trials to fetch subreddit data. Default 20.
     :param max_simultaneous_downloads: Maximum number of simultaneous downloads. Default 16.
+    :param verbose: Enable verbose output. Default False.
     """
+    # Setup logging
+    logging.basicConfig(level=logging.DEBUG if verbose else logging.INFO,
+                        format='%(asctime)s - %(levelname)s - %(message)s')
+    
     try:
         # If download directory is not specified, setup the default directory.
         download_dir = get_default_download_dir() if download_dir is None else download_dir
