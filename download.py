@@ -1,14 +1,9 @@
-import os
-import time
-import logging
-from multiprocessing import Pool
-from concurrent.futures import ThreadPoolExecutor
-from counter_and_status_bar import MultiProcessingCounterAndStatusBar
-from downloaders import MediaDownloader
 import fire
 from utils import check_max_simultaneous_downloads, get_default_download_dir
 from web_handler import RedditStateHandler
 from tqdm import tqdm
+import logging
+from concurrent.futures import ThreadPoolExecutor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -54,6 +49,8 @@ def start_download(subreddit: str,
                                                 sort_time=sort_time,
                                                 local_download_dir=download_dir)
 
+        logging.info(f"Starting download from subreddit: {subreddit}")
+
         # Loop till we reach max_post_downloads.
         while MultiProcessingCounterAndStatusBar.global_counter.value < max_post_downloads:
             # Get subreddit as json.
@@ -85,5 +82,5 @@ def start_download(subreddit: str,
     except Exception as e:
         logging.error(f"An error occurred: {e}")
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     fire.Fire(start_download)
