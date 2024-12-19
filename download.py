@@ -2,7 +2,7 @@ import fire
 from utils import check_max_simultaneous_downloads, get_default_download_dir
 from web_handler import RedditStateHandler
 from counter_and_status_bar import MultiProcessingCounterAndStatusBar
-from media_downloader import MediaDownloader
+from downloaders import MediaDownloader
 from tqdm import tqdm
 import logging
 from concurrent.futures import ThreadPoolExecutor
